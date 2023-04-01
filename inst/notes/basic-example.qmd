@@ -1,0 +1,197 @@
+---
+title: Basic example
+author: Jono Tuke
+date: today
+date-format: long
+format: 
+  html: 
+    self-contained: true
+    df-print: tibble
+editor_options: 
+  chunk_output_type: console
+execute: 
+  warning: false
+  message: false
+---
+
+This document is based on the r-code from Jacinta. It is for me to understand how the code works, and also to verify with Jacinta that my understanding is correct. 
+
+The file from Jacinta is `Simulate clouds.R` and is in `inst/notes`. 
+
+# Read in raster
+
+We read in the raster using the `raster` function from the `raster` package. 
+
+```{r}
+pacman::p_load(tidyverse, raster)
+example_raster <- raster(
+  here::here("inst", "notes", "InjuneCloudFree27Sept.tif")
+)
+example_raster
+```
+
+The basic form of a raster is a grid of values with associated spatial information like lat/long and projection. Note that this is an S4 object. The information of importance is 
+
+- dimensions: size of the grid
+- resolution: geographical size of each grid, in this case I assume 30 metres by 30 metres. 
+- extent: spatial position. 
+- crs: projection system. 
+
+We can plot it with the `plot` function. 
+
+```{r}
+plot(example_raster)
+```
+
+# Simulate clouds
+
+To simulate the clouds, we first set up an appropriate sized grid. 
+
+```{r}
+cloud_size <- 70
+cloud_grid <- expand_grid(
+  X = 1:cloud_size, 
+  Y = 1:cloud_size
+)
+cloud_grid
+```
+
+We will get the number of cells
+
+```{r}
+grid_size <- nrow(cloud_grid)
+```
+
+So we have `r grid_size` cells in our `cloud_grid`.
+
+
+Next, we will get the distances between each point
+
+```{r}
+distance <- as.matrix(dist(cloud_grid))
+distance[1:5, 1:5]
+image(distance[1:10, 1:10])
+```
+
+The simulation of the cloud is done with this code
+
+```{r}
+phi <- 0.1
+set.seed(2023)
+cloud_grid$Z <- mgcv::rmvn(1, rep(0, grid_size), exp(-phi * distance))
+```
+
+So we have a single random variate from a normal distribution with the distribution
+
+$$
+X \sim N_n(\boldsymbol{0}, \Sigma),
+$$
+
+where
+
+$$
+[\Sigma]_{ij} = \exp(-\phi d_{ij}), 
+$$
+and $d_{ij}$ is the Euclidean distance between $X_i$ and $X_j$, and we have $n$ points. 
+
+We can have a gander: 
+
+```{r}
+cloud_grid |> 
+  ggplot(aes(X, Y, fill = Z)) + 
+  geom_tile()
+```
+
+
+Next, we convert to a raster
+
+```{r}
+cloud_raster <- rasterFromXYZ(cloud_grid)
+plot(cloud_raster)
+plot(example_raster)
+```
+
+
+# Matching cloud raster to original raster
+
+So that the cloud raster and example raster are at the same location, we need to set the cloud raster `extent` and `crs` to be the same. 
+
+```{r}
+cloud_raster
+```
+
+```{r}
+extent(cloud_raster) <- extent(example_raster)
+crs(cloud_raster) <- proj4string(example_raster)
+cloud_raster
+```
+
+```{r}
+plot(cloud_raster)
+```
+
+Next, we notice that the dimension of the example and cloud are not the same, so we match them using `projectRaster()`
+
+```{r}
+cloud_raster <- projectRaster(cloud_raster, example_raster, method = 'ngb')
+cloud_raster
+```
+
+```{r}
+plot(cloud_raster)
+```
+
+# Filtering cloud
+
+We can use different ranges to set to zero to change the cloud formation: 
+
+## speckled small clouds
+
+```{r}
+speckled_cloud_raster <- cloud_raster
+speckled_cloud_raster[speckled_cloud_raster > -0.5 & speckled_cloud_raster < 0.15] <- NA
+plot(speckled_cloud_raster, colNA = "blue")
+```
+
+
+## Large clouds
+
+```{r}
+large_cloud_raster <- cloud_raster
+large_cloud_raster[large_cloud_raster > 0.8 & large_cloud_raster < 4] <- NA
+plot(large_cloud_raster, colNA = "blue")
+```
+
+## Add clouds to original raster
+
+We can add the clouds to the original raster using mask
+
+```{r}
+example_cloud_raster <- mask(
+  example_raster, 
+  mask = large_cloud_raster
+)
+plot(example_raster)
+plot(example_cloud_raster)
+```
+
+
+## Writing out
+
+The function `writeGDAL` is being deprecated: 
+
+<https://r-spatial.org/r/2022/04/12/evolution.html>
+
+So we need to find another way to write out. Maybe this - need to talk to Jacinta about best way. 
+
+```{r}
+writeRaster(
+  example_cloud_raster, 
+  filename = here::here(
+    "inst", "notes", "example_cloud_raster.tif"
+  ), 
+  overwrite = TRUE
+)
+```
+
+
