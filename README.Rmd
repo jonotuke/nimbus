@@ -56,5 +56,12 @@ cloud <- simulate_cloud(phi = 0.1, seed = 2023)
 plot(cloud)
 ```
 
+Next, we will match the extent and projection of the simulated cloud raster with the original raster. 
+
+```{r}
+cloud <- match_rasters(example_raster, cloud)
+plot(cloud)
+```
+
 
 

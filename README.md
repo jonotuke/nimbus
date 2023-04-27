@@ -52,3 +52,13 @@ plot(cloud)
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+Next, we will match the extent and projection of the simulated cloud
+raster with the original raster.
+
+``` r
+cloud <- match_rasters(example_raster, cloud)
+plot(cloud)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
