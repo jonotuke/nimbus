@@ -6,7 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of nimbus is to …
+The goal of nimbus is to simulate cloud cover and add it to raster
+files.
 
 ## Installation
 
@@ -20,36 +21,32 @@ devtools::install_github("jonotuke/nimbus")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+First we load the package.
 
 ``` r
 library(nimbus)
 ## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+We will illustrate by adding a cloud cover to the example raster. First
+we look at the example raster
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+library(raster)
+#> Loading required package: sp
+plot(example_raster)
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-You can also embed plots, for example:
+We will simulate a $70 \times 70$ pixels cloud
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+``` r
+cloud <- simulate_cloud(phi = 0.1, seed = 2023)
+```
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+``` r
+plot(cloud)
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
