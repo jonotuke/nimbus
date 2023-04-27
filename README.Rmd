@@ -36,6 +36,7 @@ First we load the package.
 
 ```{r example}
 library(nimbus)
+library(raster)
 ## basic example code
 ```
 
@@ -48,7 +49,7 @@ plot(example_raster)
 
 We will simulate a $70 \times 70$ pixels cloud
 
-```{r, cache=TRUE}
+```{r}
 cloud <- simulate_cloud(phi = 0.1, seed = 2023)
 ```
 
@@ -61,7 +62,38 @@ Next, we will match the extent and projection of the simulated cloud raster with
 ```{r}
 cloud <- match_rasters(example_raster, cloud)
 plot(cloud)
+cloud
 ```
+
+Now, we will filter the cloud and convert values to NAs that will add ask masks in the next stage. 
+
+```{r}
+speckled_cloud <- filter_cloud(cloud)
+large_cloud <- filter_cloud(cloud, type = "large")
+```
+
+```{r}
+plot(speckled_cloud)
+```
+
+```{r}
+plot(large_cloud)
+```
+
+Finally, we can now add the clouds to the original raster
+
+```{r}
+example_raster |> add_cloud(speckled_cloud) |> plot()
+```
+
+```{r}
+example_raster |> add_cloud(large_cloud) |> plot()
+```
+
+
+
+
+
 
 
 

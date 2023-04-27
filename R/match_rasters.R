@@ -13,7 +13,9 @@
 #' @examples
 #' library(raster)
 #' plot(example_cloud)
+#' \donttest{
 #' example_cloud <- match_rasters(example_raster, example_cloud, trace = TRUE)
+#' }
 #' plot(example_cloud)
 match_rasters <- function(raster, cloud, trace = FALSE){
   if(trace){
@@ -32,6 +34,12 @@ match_rasters <- function(raster, cloud, trace = FALSE){
   if(trace){
     print(raster::proj4string(cloud))
   }
+  # Match dimension
+  cloud <- raster::projectRaster(
+    cloud,
+    raster,
+    method = 'ngb'
+    )
   cloud
 }
 # library(raster)

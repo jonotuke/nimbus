@@ -27,6 +27,8 @@ First we load the package.
 
 ``` r
 library(nimbus)
+library(raster)
+#> Loading required package: sp
 ## basic example code
 ```
 
@@ -35,7 +37,6 @@ we look at the example raster
 
 ``` r
 library(raster)
-#> Loading required package: sp
 plot(example_raster)
 ```
 
@@ -62,3 +63,49 @@ plot(cloud)
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+``` r
+cloud
+#> class      : RasterLayer 
+#> dimensions : 7061, 7911, 55859571  (nrow, ncol, ncell)
+#> resolution : 30, 30  (x, y)
+#> extent     : 426885, 664215, 7019185, 7231015  (xmin, xmax, ymin, ymax)
+#> crs        : +proj=utm +zone=55 +south +ellps=WGS84 +units=m +no_defs 
+#> source     : memory
+#> names      : Z 
+#> values     : -5.199408, 5.321076  (min, max)
+```
+
+Now, we will filter the cloud and convert values to NAs that will add
+ask masks in the next stage.
+
+``` r
+speckled_cloud <- filter_cloud(cloud)
+large_cloud <- filter_cloud(cloud, type = "large")
+```
+
+``` r
+plot(speckled_cloud)
+```
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
+``` r
+plot(large_cloud)
+```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+
+Finally, we can now add the clouds to the original raster
+
+``` r
+example_raster |> add_cloud(speckled_cloud) |> plot()
+```
+
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+
+``` r
+example_raster |> add_cloud(large_cloud) |> plot()
+```
+
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
