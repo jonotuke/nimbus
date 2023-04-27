@@ -91,8 +91,22 @@ where
 
 $$
 [\Sigma]_{ij} = \exp(-\phi d_{ij}), 
-$$
+$$ {#eq-pixel}
+
 and $d_{ij}$ is the Euclidean distance between $X_i$ and $X_j$, and we have $n$ points. 
+
+There is an alternative form for the simulation
+
+$$
+[\Sigma]_{ij} = \exp(-\phi d_{ij}^2), 
+$$
+
+This gives a smoother cloud, while @eq-pixel gives a more pixellated cloud. 
+
+```{r}
+X <- rmvn(1, rep(0, n), exp(-phi * distance^2)) #For pixel scale clouds use (-phi * distance)) for smoother scales use (-phi * distance^2)
+```
+
 
 We can have a gander: 
 
