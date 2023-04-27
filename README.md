@@ -4,6 +4,8 @@
 # nimbus
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/jonotuke/nimbus/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonotuke/nimbus/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of nimbus is to simulate cloud cover and add it to raster
