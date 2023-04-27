@@ -1,4 +1,5 @@
 url: https://jonotuke.github.io/nimbus/
 template:
   bootstrap: 5
-
+development:
+    mode: auto
