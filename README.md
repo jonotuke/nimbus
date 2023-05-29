@@ -36,7 +36,6 @@ We will illustrate by adding a cloud cover to the example raster. First
 we look at the example raster
 
 ``` r
-library(raster)
 plot(example_raster)
 ```
 
@@ -70,7 +69,7 @@ cloud
 #> dimensions : 7061, 7911, 55859571  (nrow, ncol, ncell)
 #> resolution : 30, 30  (x, y)
 #> extent     : 426885, 664215, 7019185, 7231015  (xmin, xmax, ymin, ymax)
-#> crs        : +proj=utm +zone=55 +south +ellps=WGS84 +units=m +no_defs 
+#> crs        : +proj=utm +zone=55 +south +datum=WGS84 +units=m +no_defs 
 #> source     : memory
 #> names      : Z 
 #> values     : -5.199408, 5.321076  (min, max)

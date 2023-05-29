@@ -43,7 +43,6 @@ library(raster)
 We will illustrate by adding a cloud cover to the example raster. First we look at the example raster
 
 ```{r}
-library(raster)
 plot(example_raster)
 ```
 
