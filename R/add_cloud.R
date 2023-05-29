@@ -9,9 +9,10 @@
 #' @examples
 #' library(nimbus)
 #' library(raster)
-#' \donttest{example_raster |> add_cloud(speckled_cloud) |> plot()
-#' example_raster |> add_cloud(large_cloud) |> plot()
-#' }
+#' plot(example_raster)
+#' cloud <- example_raster
+#' cloud[cloud < 500] <- NA
+#' example_raster |> add_cloud(cloud) |> plot()
 add_cloud <- function(raster, cloud){
   raster <- raster::mask(
     raster,
@@ -19,5 +20,8 @@ add_cloud <- function(raster, cloud){
   )
 }
 # library(nimbus)
-# example_raster |> add_cloud(speckled_cloud) |> plot()
-# example_raster |> add_cloud(large_cloud) |> plot()
+# library(raster)
+# plot(example_raster)
+# cloud <- example_raster
+# cloud[cloud < 500] <- NA
+# example_raster |> add_cloud(cloud) |> plot()

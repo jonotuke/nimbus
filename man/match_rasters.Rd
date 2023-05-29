@@ -22,9 +22,10 @@ extent and projection as the original raster
 }
 \examples{
 library(raster)
-plot(example_cloud)
+plot(example_raster)
+cloud <- simulate_cloud(phi = 0.1, seed = 2023)
 \donttest{
-example_cloud <- match_rasters(example_raster, example_cloud, trace = TRUE)
-}
+example_cloud <- match_rasters(example_raster, cloud, trace = TRUE)
 plot(example_cloud)
+}
 }

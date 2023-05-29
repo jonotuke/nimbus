@@ -20,7 +20,8 @@ add_cloud
 \examples{
 library(nimbus)
 library(raster)
-\donttest{example_raster |> add_cloud(speckled_cloud) |> plot()
-example_raster |> add_cloud(large_cloud) |> plot()
-}
+plot(example_raster)
+cloud <- example_raster
+cloud[cloud < 500] <- NA
+example_raster |> add_cloud(cloud) |> plot()
 }

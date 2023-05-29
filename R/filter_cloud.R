@@ -9,12 +9,12 @@
 #' @export
 #'
 #' @examples
-#' # library(nimbus)
+#' library(nimbus)
 #' library(raster)
-#' example_cloud_matched
-#' plot(example_cloud_matched)
-#' speckled_cloud_raster <- filter_cloud(example_cloud_matched)
-#' large_cloud_raster <- filter_cloud(example_cloud_matched, type = "large")
+#' cloud <- simulate_cloud(phi = 0.1, seed = 2023)
+#' plot(cloud)
+#' speckled_cloud_raster <- filter_cloud(cloud)
+#' large_cloud_raster <- filter_cloud(cloud, type = "large")
 #' plot(speckled_cloud_raster, colNA = "blue")
 #' plot(large_cloud_raster, colNA = "blue")
 filter_cloud <- function(cloud, type = "speckled"){
@@ -27,9 +27,9 @@ filter_cloud <- function(cloud, type = "speckled"){
 }
 # library(nimbus)
 # library(raster)
-# example_cloud_matched
-# plot(example_cloud_matched)
-# speckled_cloud_raster <- filter_cloud(example_cloud_matched)
-# large_cloud_raster <- filter_cloud(example_cloud_matched, type = "large")
+# cloud <- simulate_cloud(phi = 0.1, seed = 2023)
+# plot(cloud)
+# speckled_cloud_raster <- filter_cloud(cloud)
+# large_cloud_raster <- filter_cloud(cloud, type = "large")
 # plot(speckled_cloud_raster, colNA = "blue")
 # plot(large_cloud_raster, colNA = "blue")

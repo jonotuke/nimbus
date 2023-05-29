@@ -70,22 +70,13 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># library(nimbus)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jonotuke/nimbus" class="external-link">nimbus</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">example_cloud_matched</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class      : RasterLayer </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions : 7061, 7911, 55859571  (nrow, ncol, ncell)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> resolution : 30, 30  (x, y)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> extent     : 426885, 664215, 7019185, 7231015  (xmin, xmax, ymin, ymax)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> crs        : +proj=utm +zone=55 +south +datum=WGS84 +units=m +no_defs </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> source     : memory</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> names      : Z </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> values     : -5.199408, 5.321076  (min, max)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">example_cloud_matched</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cloud</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_cloud.html">simulate_cloud</a></span><span class="op">(</span>phi <span class="op">=</span> <span class="fl">0.1</span>, seed <span class="op">=</span> <span class="fl">2023</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cloud</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="filter_cloud-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="va">speckled_cloud_raster</span> <span class="op">&lt;-</span> <span class="fu">filter_cloud</span><span class="op">(</span><span class="va">example_cloud_matched</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">large_cloud_raster</span> <span class="op">&lt;-</span> <span class="fu">filter_cloud</span><span class="op">(</span><span class="va">example_cloud_matched</span>, type <span class="op">=</span> <span class="st">"large"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">speckled_cloud_raster</span> <span class="op">&lt;-</span> <span class="fu">filter_cloud</span><span class="op">(</span><span class="va">cloud</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">large_cloud_raster</span> <span class="op">&lt;-</span> <span class="fu">filter_cloud</span><span class="op">(</span><span class="va">cloud</span>, type <span class="op">=</span> <span class="st">"large"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">speckled_cloud_raster</span>, colNA <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="filter_cloud-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">large_cloud_raster</span>, colNA <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span></span>

@@ -12,11 +12,12 @@
 #'
 #' @examples
 #' library(raster)
-#' plot(example_cloud)
+#' plot(example_raster)
+#' cloud <- simulate_cloud(phi = 0.1, seed = 2023)
 #' \donttest{
-#' example_cloud <- match_rasters(example_raster, example_cloud, trace = TRUE)
-#' }
+#' example_cloud <- match_rasters(example_raster, cloud, trace = TRUE)
 #' plot(example_cloud)
+#' }
 match_rasters <- function(raster, cloud, trace = FALSE){
   if(trace){
     print(raster::extent(cloud))
@@ -43,6 +44,7 @@ match_rasters <- function(raster, cloud, trace = FALSE){
   cloud
 }
 # library(raster)
-# plot(example_cloud)
-# example_cloud <- match_rasters(example_raster, example_cloud, trace = TRUE)
+# plot(example_raster)
+# cloud <- simulate_cloud(phi = 0.1, seed = 2023)
+# example_cloud <- match_rasters(example_raster, cloud, trace = TRUE)
 # plot(example_cloud)
